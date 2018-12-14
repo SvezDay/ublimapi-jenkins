@@ -15,15 +15,6 @@ pipeline {
               sh 'npm install'
             }
         }
-        /*
-        stage('Building image') {
-            steps{
-                script {
-                  docker.build registry + ":$BUILD_NUMBER"
-                }
-            }
-        }
-        */
         stage('Test') {
             steps {
                 echo 'Testing..'
