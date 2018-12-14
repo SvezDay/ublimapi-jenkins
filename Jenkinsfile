@@ -15,6 +15,7 @@ pipeline {
               sh 'npm install'
             }
         }
+        /*
         stage('Building image') {
             steps{
                 script {
@@ -22,6 +23,7 @@ pipeline {
                 }
             }
         }
+        */
         stage('Test') {
             steps {
                 echo 'Testing..'
