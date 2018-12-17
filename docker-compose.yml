@@ -1,20 +1,13 @@
-version: "3"
+version: "0.0.1"
 services:
   web:
-    # replace username/repo:tag with your name and image details
-    image: svezday/machine-web-app:part-4-lite
-    deploy:
-      replicas: 5
-      restart_policy:
-        condition: on-failure
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 50M
+    build: .
+    command: npm run start
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
     ports:
-      - "8080:8080"
-    networks:
-      - webnet
+      - "3200:3200"
 
-networks:
-  webnet:
+    environment:
+       NODE_ENV: dev
