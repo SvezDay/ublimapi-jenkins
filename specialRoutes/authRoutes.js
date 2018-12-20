@@ -48,7 +48,7 @@ let tx = session.beginTransaction();
       throw {status: 403, mess: data.error || 'no data returned after manual_register'};
     }
   })
-  .catch(e => { utils.fail(ession, e, res, tx) })
+  .catch(e => { utils.fail(session, e, res, tx) })
 };
 
 
