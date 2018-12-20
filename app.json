@@ -1,0 +1,33 @@
+{
+  "name": "ublimapi",
+  "scripts": {
+  },
+  "env": {
+    "GRAPHENEDB_BOLT_PASSWORD": {
+      "required": true
+    },
+    "GRAPHENEDB_BOLT_URL": {
+      "required": true
+    },
+    "GRAPHENEDB_BOLT_USER": {
+      "required": true
+    },
+    "GRAPHENEDB_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "graphenedb"
+  ],
+  "stack": "heroku-18",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
