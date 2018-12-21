@@ -77,10 +77,22 @@ app.use(cors(corsOptions));
 // Add the error module
 // Add the scope checking
 
-
 app.get('/', function(req, res){
-  res.status(200).send('Access granted -- process.env.GRAPHENEDB_BOLT_URL: ');
+  const driver = require('./dbconnect');
+  let session = driver.session();
+
+  session.run("match (n) return count(n)").then(parser.parse)
+  .then(data=>{
+    console.log('@@@@@@@@@@@@@@@@@@@@ query data:',data)
+    session.close();
+    driver.close();
+    res.status(200).send('CHECK DB, Number of Node: ', data);
+  })
+  .catch(err=>{
+    console.log(err); session.close(); driver.close()
+  });
 });
+
 app.post('/manual_authenticate', AuthRoutes.manual_authenticate);
 app.post('/manual_register', AuthRoutes.manual_register);
 

@@ -10,18 +10,29 @@ let tokenGen = require('../api/_services/token.service');
 
 module.exports.query = (req, res, next)=>{
   // console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%ù query req.body:', req.body)
+  // console.log("driver", driver.session().beginTransaction());
+  // let session = driver.session();
+  // let tx = session.beginTransaction();
   let session = driver.session();
-let tx = session.beginTransaction();
-  tx.run(req.body.query).then(parser.parse)
-  .then(data=>{console.log('@@@@@@@@@@@@@@@@@@@@ query data:',data); return data; })
-  .then(data=>{ tx.commit(); session.close();res.status(200).json({data:data});  })
-  .catch(err=>{console.log(err); tx.rollback(); session.close();});
+
+  session
+  .run(req.body.query)
+  .then(parser.parse)
+  // .then(data=>{console.log('@@@@@@@@@@@@@@@@@@@@ query data:',data); return data; })
+  // .then(data=>{ tx.commit(); session.close();res.status(200).json({data:data});  })
+  // .catch(err=>{console.log(err); tx.rollback(); session.close();});
+  .then(data=>{
+    console.log('@@@@@@@@@@@@@@@@@@@@ query data:',data)
+    session.close();
+    driver.close();
+  })
+  .catch(err=>{console.log(err); session.close(); driver.close()});
 };
 
 
 module.exports.createDicoItem = (req, res, next)=>{
   let session = driver.session();
-let tx = session.beginTransaction();
+  let tx = session.beginTransaction();
   // console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%ù req.body', req.body)
   let query = `
   MATCH (i:Index{uuid:'${req.body.idx_uuid}'})-[]->(t:Title)
