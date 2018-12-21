@@ -43,6 +43,7 @@ let whitelist = ["http://localhost:4200", "http://localhost:5000", "https://ubli
 
 let corsOptions = {
   origin: (origin, callback)=>{
+    console.log("=================== origin", origin)
     if(origin == undefined){
       callback(null, true) ;
     } else if(whitelist.indexOf(origin) !== -1){
@@ -67,10 +68,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(favicon(path.join(__dirname, 'favicon.ico')));
 
-app.use(allowCrossDomain);
-app.options('*', cors())
-app.use(handleError);
-app.use(cors(corsOptions));
+// app.use(allowCrossDomain);
+// app.options('*', cors())
+// app.use(handleError);
+// app.use(cors(corsOptions));
 
 // Add cors protection
 // Add the bodyParser limits
@@ -78,17 +79,20 @@ app.use(cors(corsOptions));
 // Add the scope checking
 
 app.get('/', function(req, res){
+  const parser = require('parse-neo4j');
   const driver = require('./dbconnect');
   let session = driver.session();
 
-  session.run("match (n) return count(n)").then(parser.parse)
+  session.run("match (n) return count(n)")
+  .then(parser.parse)
   .then(data=>{
     console.log('@@@@@@@@@@@@@@@@@@@@ query data:',data)
     session.close();
     driver.close();
-    res.status(200).send('CHECK DB, Number of Node: ', data);
+    res.status(200).json({'CHECK DB, Number of Node: ': data});
   })
   .catch(err=>{
+    res.status(400);
     console.log(err); session.close(); driver.close()
   });
 });

@@ -1,21 +1,26 @@
 version: "0.0.1"
 services:
   api:
-    build: .
     command: npm run start
+    image: node:8
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
     ports:
       - "3200:3200"
+    working_dir: /usr/app
     links:
       - neo4j
     environment:
        NODE_ENV: dev
   neo4j:
-    image: neo4j:3.5
+    image: neo4j:3.5.0
     ports:
+      - "7473:7473"
       - "7474:7474"
       - "7687:7687"
     volumes:
-      - ./db/dbms:/data/dbms
+      - $HOME/neo4j/data:/home/gray/Programs/Heroku/neo4j-volumes/neo4j-data
+      - $HOME/neo4j/logs:/home/gray/Programs/Heroku/neo4j-volumes/neo4j-logs
+      - $HOME/neo4j/conf:/home/gray/Programs/Heroku/neo4j-volumes/neo4j-conf
+      - $HOME/neo4j/plugins:/home/gray/Programs/Heroku/neo4j-volumes/neo4j-plugins

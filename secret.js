@@ -1,7 +1,8 @@
 "use-strict";
 
 exports.driver_local = {
-  bolt: "bolt://localhost:7687",
+  // bolt: "bolt://localhost:7687",
+  bolt: "bolt://0.0.0.0:7687",
   host: "127.0.0.1",
   post: 7474,
   username:"neo4j",

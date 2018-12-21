@@ -1,12 +1,13 @@
 version: "0.0.1"
 services:
   api:
-    build: .
     command: npm run start
+    image: node:8
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
     ports:
       - "3200:3200"
+    working_dir: /usr/app
     environment:
-       NODE_ENV: dev
+       NODE_ENV: production
