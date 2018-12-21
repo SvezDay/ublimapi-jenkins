@@ -8,8 +8,7 @@ const url = process.env.GRAPHENEDB_BOLT_URL || conf.bolt;
 const usr = process.env.GRAPHENEDB_BOLT_USER || conf.username;
 const pwd = process.env.GRAPHENEDB_BOLT_PASSWORD || conf.password;
 
-// const driver = neo4j.driver(url, neo4j.auth.basic(usr, pwd));
-const driver = neo4j.driver("bolt://neo4j:7687", neo4j.auth.basic(usr, pwd));
+const driver = neo4j.driver(url, neo4j.auth.basic(usr, pwd));
 // const driver = neo4j.driver(url, neo4j.auth.basic('neo4j', 'neo4j'));
 
 module.exports = driver;
